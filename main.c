@@ -274,7 +274,34 @@ void editAccount(){}
 // function for check login edit
 int editLoginCheck(){}
 //function for show the richest customer
-void showRichestCustomer(){}
+void showRichestCustomer(){
+    int i;
+    int max;
+    readFromFile();
+    readIndexOfAccount();
+    for (i = 1; i <= savedIndex; i++) {
+        if (person[i].inventory > max) {
+            max = person[i].inventory;
+        };
+    }
+    printf("Please wait...\n");
+    Sleep(1000);
+    system("cls");
+    printf("*** The richest Customer is :\n");
+    printf("%d", savedIndex);
+    for (i = 1; i <= savedIndex; i++) {
+        if (person[i].inventory == max) {
+            printf("First name :%s\n", person[i].Fname);
+            printf("Last name :%s\n", person[i].Lname);
+            printf("PhoneNum:%s\n", person[i].PhoneNum);
+            printf("ID :%s\n", person[i].id);
+            printf("Card Number :%s\n", person[i].CartNum);
+            printf("Password :%s\n", person[i].password);
+            printf("Inventory :%lf\n", person[i].inventory);
+        };
+    }
+    backToEmployeeMenu();
+}
 //function for show and sum all of account
 void showTotalAccount(){}
 //function for back main menu
