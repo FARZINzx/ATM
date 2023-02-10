@@ -431,6 +431,28 @@ void readIndexOfAccount(){
     }
 }
 // function for back to customer menu in app
-void backToCustomerMenu(){}
+void backToCustomerMenu(){
+    char choice;
+    while (1) {
+        printf("\n\nPress Enter to back Customer menu...");
+        scanf("%c", &choice);
+        getchar();
+        if (choice == '\n') {
+            customerMenu();
+            break;
+        } else continue;
+    }
+}
 // function for back to employee menu in app
-void backToEmployeeMenu(){}
+void backToEmployeeMenu(){
+    char choice;
+    while (1) {
+        printf("\n\nPress Enter to back Employee menu...");
+        scanf("%c", &choice);
+        getchar();
+        if (choice == '\n') {
+            employeeMenu();
+            break;
+        } else continue;
+    }
+}
