@@ -55,13 +55,13 @@ int loginEmployee();
 //function for check login customer
 int loginCustomer();
 //function for show data of customer
-void showAccount(struct information person);
+void showAccount(struct information person,int);
 //function for save file in data
-void saveToFile();
+void saveToFile(int);
 //function for read file from file
 int readFromFile();
 // function for save index of customer from file
-void saveIndexOfAccount(int);
+void saveIndexOfAccount();
 // function for read index of customer from file
 void readIndexOfAccount();
 // function for back to customer menu in app
@@ -69,7 +69,7 @@ void backToCustomerMenu();
 // function for back to employee menu in app
 void backToEmployeeMenu();
 //Define Global Variable
-//static int savedIndex;
+static int savedIndex;
 //int indexCus;
 //int loginIndex;
 int indexCustomer = 0;
@@ -78,8 +78,7 @@ int main(){
     mainMenu();
     return 0;
 }
-
-
+//
 void mainMenu(){
     // Define Character
     int choice;
@@ -110,10 +109,9 @@ void mainMenu(){
 // function for show employee item
 void employeeMenu(){
     system("cls");
-    if(loginEmployee()==1){
         //Define Variable
         int choice;
-        if (loginEmployee()) {
+        if (loginEmployee()==1) {
             system("cls");
             // Item menu
             printf("*** Employee Menu ***\n");
@@ -149,7 +147,6 @@ void employeeMenu(){
             }
         }
     }
-}
 // function for show customer item
 void customerMenu(){};
 // function for exit as app
@@ -161,7 +158,7 @@ void createAccount(){
     int index, in, length;
     system("cls");
     while (1) {
-        for (in = 0; in < 100; in++) {
+        for (in = savedIndex; in < 100; in++) {
             // Define name to use it to set person account
             // Naming struct information to person
             printf("Please complete the Inputs :\n\n");
@@ -255,6 +252,7 @@ void createAccount(){
             while (1) {
                 printf("Inventory :\n");
                 scanf("%lf", &person[in].inventory);
+                getchar();
                 int x = person[in].inventory;
                 if (x < 0) {
                     printf("You asked for my job now , Try again.\n");
@@ -265,12 +263,11 @@ void createAccount(){
             }
             break;
         };
-        printf("%d",indexCustomer);
         indexCustomer++;
         break;
     }
-    saveIndexOfAccount(indexCustomer);
-    showAccount(person[in]);
+    saveIndexOfAccount();
+    showAccount(person[in],in);
 }
 //function for edit data as file
 void editAccount(){}
@@ -303,7 +300,9 @@ int loginEmployee(){
     char user[6] = "admin";
     system("cls");
     do {
-        //
+        if(savedIndex > 0){
+            return 1;
+        }else{
             if (index > 0) {
                 system("cls");
                 printf("The password or username is valid!\n");
@@ -326,12 +325,14 @@ int loginEmployee(){
                 index++;
                 continue;
             }
+        }
+
     } while (value == 0);
 }
 //function for check login customer
 int loginCustomer(){}
 //function for show data of customer
-void showAccount(struct information personS) {
+void showAccount(struct information personS,int ind) {
     int index;
     char c;
     system("cls");
@@ -347,17 +348,41 @@ void showAccount(struct information personS) {
     }
     printf("\nPress Enter to back Employee menu...");
     c = getchar();
+
     if (c == '\n') {
-        saveToFile();
+        saveToFile(ind);
         employeeMenu();
     }
 }
 //function for save file in data
-void saveToFile(){}
+void saveToFile(int indexC){
+    int i;
+    FILE *save;
+    readIndexOfAccount();
+    if (savedIndex > 0) {
+        save = fopen("Data.txt", "a");
+    } else {
+        save = fopen("Data.txt", "w");
+    }
+    if (save == NULL) {
+        printf("This file does not exist.");
+    } else {
+            fprintf(save, "%s %s %s %s %s %s %lf\n",
+                    person[indexC].Fname,
+                    person[indexC].Lname,
+                    person[indexC].PhoneNum,
+                    person[indexC].id,
+                    person[indexC].CartNum,
+                    person[indexC].password,
+                    person[indexC].inventory
+            );
+        fclose(save);
+    }
+}
 //function for read file from file
 int readFromFile(){}
 // function for save index of customer from file
-void saveIndexOfAccount(int indexCustomer){
+void saveIndexOfAccount(){
     FILE *inFil;
     inFil = fopen("index.txt", "w");
     if (inFil == NULL) {
@@ -374,7 +399,7 @@ void readIndexOfAccount(){
     if (inFil == NULL) {
         printf("This file does not exist.");
     } else {
-        fscanf(inFil, "%d", &indexCustomer);
+        savedIndex = fscanf(inFil, "%d", &indexCustomer);
         fclose(inFil);
     }
 }
