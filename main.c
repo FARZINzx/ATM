@@ -69,10 +69,10 @@ void backToCustomerMenu();
 // function for back to employee menu in app
 void backToEmployeeMenu();
 //Define Global Variable
-static int savedIndex;
+static int savedIndex =0;
 //int indexCus;
 //int loginIndex;
-int indexCustomer = 0;
+static int indexCustomer = 0;
 
 int main(){
     mainMenu();
@@ -279,16 +279,17 @@ void showRichestCustomer(){
     int max;
     readFromFile();
     readIndexOfAccount();
+    printf("%d",savedIndex);
     for (i = 1; i <= savedIndex; i++) {
         if (person[i].inventory > max) {
             max = person[i].inventory;
         };
     }
+    printf("%d",savedIndex);
     printf("Please wait...\n");
     Sleep(1000);
-    system("cls");
+   system("cls");
     printf("*** The richest Customer is :\n");
-    printf("%d", savedIndex);
     for (i = 1; i <= savedIndex; i++) {
         if (person[i].inventory == max) {
             printf("First name :%s\n", person[i].Fname);
@@ -407,7 +408,30 @@ void saveToFile(int indexC){
     }
 }
 //function for read file from file
-int readFromFile(){}
+int readFromFile(){
+    int i;
+    FILE *ptf;
+    ptf = fopen("Data.txt", "r");
+    if (ptf == NULL) {
+        printf("This file does not exist.");
+    } else {
+        readIndexOfAccount();
+        printf("%d", savedIndex);
+        for (i = 1; i <= savedIndex; i++) {
+            fscanf(ptf, "%s %s %s %s %s %s %lf\n",
+                   person[i].Fname,
+                   person[i].Lname,
+                   person[i].PhoneNum,
+                   person[i].id,
+                   person[i].CartNum,
+                   person[i].password,
+                   &person[i].inventory
+            );
+        }
+        fclose(ptf);
+    }
+    return i;
+}
 // function for save index of customer from file
 void saveIndexOfAccount(){
     FILE *inFil;
@@ -429,6 +453,7 @@ void readIndexOfAccount(){
         savedIndex = fscanf(inFil, "%d", &indexCustomer);
         fclose(inFil);
     }
+    printf("summmm :%d",savedIndex);
 }
 // function for back to customer menu in app
 void backToCustomerMenu(){
