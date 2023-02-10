@@ -157,6 +157,7 @@ void createAccount(){
     static int count = 0;
     int index, in, length;
     system("cls");
+    readIndexOfAccount();
     while (1) {
         for (in = savedIndex; in < 100; in++) {
             // Define name to use it to set person account
@@ -280,7 +281,7 @@ void showRichestCustomer(){
     readFromFile();
     readIndexOfAccount();
     printf("%d",savedIndex);
-    for (i = 1; i <= savedIndex; i++) {
+    for (i = 0; i <= savedIndex; i++) {
         if (person[i].inventory > max) {
             max = person[i].inventory;
         };
@@ -290,7 +291,7 @@ void showRichestCustomer(){
     Sleep(1000);
    system("cls");
     printf("*** The richest Customer is :\n");
-    for (i = 1; i <= savedIndex; i++) {
+    for (i = 0; i <= savedIndex; i++) {
         if (person[i].inventory == max) {
             printf("First name :%s\n", person[i].Fname);
             printf("Last name :%s\n", person[i].Lname);
@@ -376,7 +377,7 @@ void showAccount(struct information personS,int ind) {
     }
     printf("\nPress Enter to back Employee menu...");
     c = getchar();
-
+   getchar();
     if (c == '\n') {
         saveToFile(ind);
         employeeMenu();
@@ -417,7 +418,7 @@ int readFromFile(){
     } else {
         readIndexOfAccount();
         printf("%d", savedIndex);
-        for (i = 1; i <= savedIndex; i++) {
+        for (i = 0; i <= savedIndex; i++) {
             fscanf(ptf, "%s %s %s %s %s %s %lf\n",
                    person[i].Fname,
                    person[i].Lname,
@@ -453,7 +454,6 @@ void readIndexOfAccount(){
         savedIndex = fscanf(inFil, "%d", &indexCustomer);
         fclose(inFil);
     }
-    printf("summmm :%d",savedIndex);
 }
 // function for back to customer menu in app
 void backToCustomerMenu(){
