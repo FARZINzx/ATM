@@ -68,6 +68,11 @@ void readIndexOfAccount();
 void backToCustomerMenu();
 // function for back to employee menu in app
 void backToEmployeeMenu();
+//Define Global Variable
+static int savedIndex;
+int indexCus;
+int loginIndex;
+int indexCustomer = 0;
 
 int main(){
     mainMenu();
@@ -156,7 +161,7 @@ void createAccount(){
     int index, in, length;
     system("cls");
     while (1) {
-        for (in = indexCustomer; in < 100; in++) {
+        for (in = 0; in < 100; in++) {
             // Define name to use it to set person account
             // Naming struct information to person
             printf("Please complete the Inputs :\n\n");
